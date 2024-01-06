@@ -1,58 +1,53 @@
-import React, { useEffect, useState  } from "react";
-import {db} from "../pages/Firebase/firebase"
+import React, { useEffect, useState } from "react";
+import { db } from "../pages/Firebase/firebase"
 import AnchorLink from 'react-anchor-link-smooth-scroll'
 import "./desktop1.css";
 import { collection, onSnapshot } from "firebase/firestore";
 
 const Desktop1 = () => {
   const [area, setArea] = useState("");
-  const [no, setno] = useState("");
+  const [no, setNo] = useState(""); 
   const [specialization, setSpecialization] = useState("");
   const [doctors, setdoctors] = useState([]);
   // const [doctors, setdoctors] = useState([]);  loadinggg
-  
-  const getValue=()=>{
-    let list=[];
+
+  const getValue = () => {
+    let list = [];
     let answer = [];
-    if(specialization!==""&&area!=="")
-    {
-    // setLoading(true);
-    const unsub=onSnapshot(
-      collection(db,"doctors"),
-      (snapshot)=>{
-        snapshot.docs.forEach((doc)=>{
-          list.push({id:doc.id,...doc.data()});
-        });
-        list.forEach((doctor) => {
-          if (doctor.specialization.toLowerCase() == specialization.toLowerCase() && doctor.city.toLowerCase() == area.toLowerCase()) {
-            answer.push(doctor);
-          }
-        });
-        console.log("Doctors data:", list);
-        setdoctors(answer);
-        setSpecialization("");
-        setArea("");
-        if(answer.length===0)
-        {
-          document.getElementById("no").textContent="No Doctor Found.";
+    if (specialization !== "" && area !== "") {
+      // setLoading(true);
+      const unsub = onSnapshot(
+        collection(db, "doctors"),
+        (snapshot) => {
+          snapshot.docs.forEach((doc) => {
+            list.push({ id: doc.id, ...doc.data() });
+          });
+          list.forEach((doctor) => {
+            if (doctor.specialization.toLowerCase() == specialization.toLowerCase() && doctor.city.toLowerCase() == area.toLowerCase()) {
+              answer.push(doctor);
+            }
+          });
+          console.log("Doctors data:", list);
+          setdoctors(answer);
+          setSpecialization("");
+          setArea("");
+          setNo(answer.length === 0 ? "No Doctor Found." : "");
+        },
+        (error) => {
+          console.log(error);
         }
-        // setLoading(false);
-      },
-      (error)=>{
-        console.log(error);
-      }
-    );
-    return()=>{
-      unsub();
-    };
-  }
+      );
+      return () => {
+        unsub();
+      };
+    }
   };
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   return (
     <div className="desktop-1">
       <div className="front">
@@ -60,15 +55,16 @@ const Desktop1 = () => {
         <div className="front-item" />
         <div className="front-inner" />
         <img className="pro-pic-icon" alt="" src="/pro-pic@2x.png" />
+        <div className="heading">FindPulse</div>
         <img className="pose-3-icon" alt="" src="/pose-3@2x.png" />
         <div className="search-a-right">Search a Right Doctor For You</div>
         <AnchorLink href="#rectangle-parent">
           <button className="vector-parent">
-          <img className="group-child" alt="" src="/rectangle-1@2x.png" />
-          <div className="search" >Search</div>
-        </button>
+            <img className="group-child" alt="" src="/rectangle-1@2x.png" />
+            <div className="search" >Search</div>
+          </button>
         </AnchorLink>
-        
+
       </div>
       <div id="rectangle-parent">
         <div className="group-item" />
@@ -97,23 +93,25 @@ const Desktop1 = () => {
         </button>
         <div className="ellipse-div" />
 
-{/* data extraction */} 
-<div className="answer">
-  {doctors.length === 0 ? (
-    <div className="rectangle-group">
-      <h4 id="no"></h4>
-    </div>
-  ) : (
-    doctors.map((item) => (
-      <div className="rectangle-group" key={item.id}>
-        <div className="rectangle-div" />
-        <img className="mask-group-icon" alt="" src={item.img} />
-        <div className="dr-">Dr.{item.name}
-        <p>City:{item.city}</p></div>
+        {/* data extraction */}
+        <div className="answer">
+        {doctors.length === 0 ? (
+          <div className="rectangle-group">
+            <h4 id="no">{no}</h4>
+          </div>
+        ) : (
+          doctors.map((item) => (
+            <div className="rectangle-group" key={item.id}>
+              <div className="rectangle-div" />
+              <img className="mask-group-icon" alt="" src={item.img} />
+              <div className="dr-">
+                Dr.{item.name}
+                <p>City:{item.city}</p>
+              </div>
+            </div>
+          ))
+        )}
       </div>
-    ))
-  )}
-</div>
 
       </div>
       <div className="desktop-1-child" />

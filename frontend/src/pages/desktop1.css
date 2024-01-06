@@ -38,6 +38,18 @@
   width: 605px;
   height: 595px;
 }
+.heading{
+  position: absolute;
+  top: 390px;
+  left: 630px;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  /* text-decoration: underline; */
+  font-size:80px;
+  font-family: cursive;
+  /* font: weight 100px; */
+  display: inline-block;
+}
 .search-a-right {
   position: absolute;
   top: 518px;
@@ -48,6 +60,9 @@
   display: inline-block;
   width: 592px;
   height: 361px;
+}
+.hidden{
+  display: none;
 }
 .group-child {
   position: absolute;
